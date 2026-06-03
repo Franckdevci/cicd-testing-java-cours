@@ -12,7 +12,7 @@ public class SolutionFormatterImpl implements SolutionFormatter {
 	@Override
 	public String format(int solution) {
 		DecimalFormatSymbols symbols = DecimalFormatSymbols.getInstance(Locale.FRENCH);
-		symbols.setGroupingSeparator(' ');
+		symbols.setGroupingSeparator(' ');
 		return new DecimalFormat("#,##0", symbols).format(solution);
 	}
 }
