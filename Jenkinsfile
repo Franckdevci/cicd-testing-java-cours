@@ -88,10 +88,14 @@ def runApp(containerName, tag, dockerHubUser, httpPort, envName) {
 }
 
 def sendEmail(recipients) {
-    mail(
-            to: recipients,
-            subject: "Build ${env.BUILD_NUMBER} - ${currentBuild.currentResult} - (${currentBuild.fullDisplayName})",
-            body: "Check console output at: ${env.BUILD_URL}/console" + "\n")
+    try {
+        mail(
+                to: recipients,
+                subject: "Build ${env.BUILD_NUMBER} - ${currentBuild.currentResult} - (${currentBuild.fullDisplayName})",
+                body: "Check console output at: ${env.BUILD_URL}/console" + "\n")
+    } catch (Exception e) {
+        echo "Email notification failed: ${e.message}"
+    }
 }
 
 String getEnvName(String branchName) {
