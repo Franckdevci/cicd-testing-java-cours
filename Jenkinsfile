@@ -8,9 +8,11 @@ def EMAIL_RECIPIENTS = "webucp2024@gmail.com"
 node {
     try {
         stage('Initialize') {
-            def dockerHome = tool 'DockerLatest'
+            def dockerHome = ''
+            try { dockerHome = tool 'DockerLatest' } catch (Exception ignored) {}
             def mavenHome = tool 'MavenLatest'
-            env.PATH = "${dockerHome}/bin:${mavenHome}/bin:${env.PATH}"
+            def extraPath = dockerHome ? "${dockerHome}/bin:" : ''
+            env.PATH = "${extraPath}${mavenHome}/bin:/usr/local/bin:/usr/bin:${env.PATH}"
         }
 
         stage('Checkout') {
